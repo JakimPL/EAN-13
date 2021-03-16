@@ -30,6 +30,7 @@ class EAN:
          [1, 0, 1, 0, 0, 0, 0], [1, 0, 0, 0, 1, 0, 0], [1, 0, 0, 1, 0, 0, 0], [1, 1, 1, 0, 1, 0, 0]]]
 
     __number: int
+    __number_string: str
     __number_digits: list[int]
     __encoder: list[int]
     __binary_sequence: list[int]
@@ -48,7 +49,8 @@ class EAN:
             self.__checksum = self.calculate_checksum()
             self.__number_digits += [self.__checksum]
 
-        self.__number = int(''.join(map(str, self.__number_digits)))
+        self.__number_string = "".join(list(map(str, self.__number_digits)))
+        self.__number = int(self.__number_string)
         if not self.check_number():
             raise ValueError("a number has to be either a 12-digit code or a valid 13-digit code")
 
@@ -82,8 +84,6 @@ class EAN:
         self.__binary_sequence = suffix + first_part + center + second_part + suffix
 
     def draw_barcode(self):
-        print("EAN-13 code: " + "".join(list(map(str, self.__number_digits))))
-
         n = len(self.__binary_sequence)
         plot.figure()
         current_axis = plot.gca()
@@ -94,6 +94,7 @@ class EAN:
 
         plot.xlim([0, n])
         plot.axis('off')
+        plot.text((n + 1) / 2, -0.12, self.__number_string, ha='center', va='center', fontsize=30)
         plot.show()
 
     @staticmethod
