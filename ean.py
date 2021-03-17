@@ -94,7 +94,7 @@ class EAN:
 
         plot.xlim([0, n])
         plot.axis('off')
-        plot.text((n + 1) / 2, -0.12, self.__number_string, ha='center', va='center', fontsize=30)
+        plot.text(n / 2, -0.12, self.__number_string, ha='center', va='center', fontsize=30)
         plot.show()
 
     @staticmethod
